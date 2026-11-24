@@ -1079,18 +1079,19 @@ details[open] summary::after{transform:rotate(-135deg)}
 <script>
 (function(){
   if(typeof gtag!=='function')return;
+  var T0=document.title;
   var app=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
   function actual(){
     var id=(location.hash||'').replace('#','');var s=id?document.getElementById(id):null;
     if(!s||s.tagName!=='SECTION'){id='home';s=document.getElementById('home');}
     var h=s&&s.querySelector('h1');
-    return {id:id,titulo:id==='home'?'Inicio':(h?h.textContent.trim():id)};
+    return {id:id,titulo:id==='home'?T0:(h?h.textContent.trim():id)};
   }
   function vista(){
     var a=actual(),ruta='/'+(a.id==='home'?'':'#'+a.id);
     gtag('event','page_view',{page_title:a.titulo,page_location:location.origin+ruta,page_path:ruta,abierta_como_app:app?'si':'no'});
   }
-  vista();
+  if(actual().id!=='home')vista();
   window.addEventListener('hashchange',vista);
   if(app)gtag('event','abrir_desde_icono');
   window.addEventListener('appinstalled',function(){gtag('event','app_instalada');});
