@@ -22,6 +22,12 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" href="/icon-192.png">
 <link rel="manifest" href="/manifest.webmanifest">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4SG702497D"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-4SG702497D',{send_page_view:false});
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -1068,6 +1074,31 @@ details[open] summary::after{transform:rotate(-135deg)}
   window.addEventListener('appinstalled',function(){box.style.display='none';});
   if(ios){box.style.display='block';txt.innerHTML='En Safari, toca el botón <b>Compartir</b> (el cuadrito con la flecha) y luego <b>“Agregar a pantalla de inicio”</b>.';}
   else if(/android/i.test(ua)){box.style.display='block';setTimeout(function(){if(!deferred){txt.innerHTML='Abre el menú <b>⋮</b> del navegador y toca <b>“Instalar app”</b> o <b>“Agregar a pantalla de inicio”</b>.';}},2500);}
+})();
+</script>
+<script>
+(function(){
+  if(typeof gtag!=='function')return;
+  var app=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
+  function actual(){
+    var id=(location.hash||'').replace('#','');var s=id?document.getElementById(id):null;
+    if(!s||s.tagName!=='SECTION'){id='home';s=document.getElementById('home');}
+    var h=s&&s.querySelector('h1');
+    return {id:id,titulo:id==='home'?'Inicio':(h?h.textContent.trim():id)};
+  }
+  function vista(){
+    var a=actual(),ruta='/'+(a.id==='home'?'':'#'+a.id);
+    gtag('event','page_view',{page_title:a.titulo,page_location:location.origin+ruta,page_path:ruta,abierta_como_app:app?'si':'no'});
+  }
+  vista();
+  window.addEventListener('hashchange',vista);
+  if(app)gtag('event','abrir_desde_icono');
+  window.addEventListener('appinstalled',function(){gtag('event','app_instalada');});
+  document.addEventListener('click',function(e){
+    var l=e.target&&e.target.closest?e.target.closest('a[href*="wa.me"]'):null;if(!l)return;
+    var a=actual(),c=l.closest('.trip'),t=c&&c.querySelector('h2');
+    gtag('event','clic_whatsapp',{viaje:t?t.textContent.trim():a.titulo,seccion:a.id});
+  },true);
 })();
 </script>
 </body>
